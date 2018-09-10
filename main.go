@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"signal"
 	"strconv"
 	"strings"
 	"sync"
@@ -17,8 +18,8 @@ import (
 	"net/http"
 
 	"github.com/PagerDuty/go-pagerduty"
-	"github.com/jet/nomad-service-alerter/logger"
-	"github.com/jet/nomad-service-alerter/notifications"
+	"github.com/vanveele/nomad-service-alerter/logger"
+	"github.com/vanveele/nomad-service-alerter/notifications"
 )
 
 const (
@@ -34,12 +35,25 @@ func main() {
 	alertSwitch := os.Getenv("alert_switch")
 	consulHost := os.Getenv("consul_server")
 	datacenter := os.Getenv("consul_datacenter")
+	kafkaBrokers := os.Getenv("kafka_brokers")
+
 	meta := make(map[string]map[string]string)
 	var lock = sync.RWMutex{}
 	logger.Init(ioutil.Discard, os.Stdout, os.Stdout, os.Stderr)
+	producer := notifications.NewNotificationsProducer(strings.Split(kafkaBrokers, ","))
+
+  defer func() {
+		if err := producer.Close(); err != nil {
+			panic(err)
+		}
+	}()
+
+  signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt)
+
 	go refreshMap(host, &lock, &meta)
-	go serviceAlerts(host, env, region, &meta, alertSwitch)                  // This go routine generates alerts for orphaned/queued allocs and restarting services
-	go consulAlerts(consulHost, host, env, region, datacenter, &meta, &lock) // This go routine generates alerts for consul service health checkpoints
+	go serviceAlerts(host, env, region, &meta, alertSwitch, &producer)                  // This go routine generates alerts for orphaned/queued allocs and restarting services
+	go consulAlerts(consulHost, host, env, region, datacenter, &meta, &lock, &producer) // This go routine generates alerts for consul service health checkpoints
 	http.HandleFunc("/health", health)                                       // health check
 	http.ListenAndServe(":8000", nil)
 }
@@ -214,6 +228,10 @@ func serviceAlerts(host string, env string, region string, meta *map[string]map[
 			if _, ok := job.Meta["pd_service_key"]; ok {
 				integrationKey = job.Meta["pd_service_key"]
 			}
+			kafkaTopic := ""
+			if _, ok := job.Meta["kafka_topic"]; ok {
+				kafkaTopic := job.Meta["kafka_topic"]
+			}
 			allocCount := 0
 			taskGroupLen := len(job.TaskGroups)
 			if taskGroupLen > 0 {
@@ -230,6 +248,10 @@ func serviceAlerts(host string, env string, region string, meta *map[string]map[
 							if err != nil {
 								logger.Error.Println("Error in PD : ", err.Error())
 							}
+							err = notifications.KafkaAlert("trigger", k, kafkaTopic, message, "service")
+							if err != nil {
+								logger.Error.Println("Error in KafkaAlert : ", err.Error())
+							}
 						}
 					} else {
 						queuedCount := allocCount - len(v)
@@ -239,6 +261,10 @@ func serviceAlerts(host string, env string, region string, meta *map[string]map[
 							err := notifications.PDAlert("trigger", k, integrationKey, message, "service")
 							if err != nil {
 								logger.Error.Println("Error in PD : ", err.Error())
+							}
+							err = notifications.KafkaAlert("trigger", k, kafka_topic, message, "service")
+							if err != nil {
+								logger.Error.Println("Error in KafkaAlert : ", err.Error())
 							}
 						}
 					}

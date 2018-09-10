@@ -1,0 +1,14 @@
+package: github.com/vanveele/nomad-service-alerter
+import:
+- package: github.com/PagerDuty/go-pagerduty
+  version: 1.0.4
+- package: github.com/Shopify/sarama
+  version: v1.17.0
+- package: github.com/hashicorp/consul
+  version: v1.2.2
+  subpackages:
+  - api
+- package: github.com/hashicorp/nomad
+  version: v0.8.4
+  subpackages:
+  - api

@@ -1,0 +1,110 @@
+hash: 9bd50575a146e2039f30475af439346228e2aa091c0cbe45edf969ae76c71329
+updated: 2018-08-20T15:31:59.094020665+01:00
+imports:
+- name: github.com/armon/go-metrics
+  version: 3c58d8115a78a6879e5df75ae900846768d36895
+- name: github.com/davecgh/go-spew
+  version: 8991bc29aa16c548c550c7ff78260e27b9ab7c73
+  subpackages:
+  - spew
+- name: github.com/eapache/go-resiliency
+  version: ea41b0fad31007accc7f806884dcdf3da98b79ce
+  subpackages:
+  - breaker
+- name: github.com/eapache/go-xerial-snappy
+  version: 776d5712da21bc4762676d614db1d8a64f4238b0
+- name: github.com/eapache/queue
+  version: 093482f3f8ce946c05bcba64badd2c82369e084d
+- name: github.com/golang/snappy
+  version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
+- name: github.com/google/go-querystring
+  version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
+  subpackages:
+  - query
+- name: github.com/gorhill/cronexpr
+  version: 88b0669f7d75f171bd612b874e52b95c190218df
+- name: github.com/hashicorp/consul
+  version: e716d1b5f8be252b3e53906c6d5632e0228f30fa
+  subpackages:
+  - api
+- name: github.com/hashicorp/errwrap
+  version: d6c0cd88035724dd42e0f335ae30161c20575ecc
+- name: github.com/hashicorp/go-cleanhttp
+  version: d5fe4b57a186c716b0e00b8c301cbd9b4182694d
+- name: github.com/hashicorp/go-immutable-radix
+  version: 7f3cd4390caab3250a57f30efdb2a65dd7649ecf
+- name: github.com/hashicorp/go-msgpack
+  version: fa3f63826f7c23912c15263591e65d54d080b458
+  subpackages:
+  - codec
+- name: github.com/hashicorp/go-multierror
+  version: 3d5d8f294aa03d8e98859feac328afbdf1ae0703
+- name: github.com/hashicorp/go-rootcerts
+  version: 6bb64b370b90e7ef1fa532be9e591a81c3493e00
+- name: github.com/hashicorp/go-version
+  version: 270f2f71b1ee587f3b609f00f422b76a6b28f348
+- name: github.com/hashicorp/golang-lru
+  version: 0fb14efe8c47ae851c0034ed7a448854d3d34cf3
+  subpackages:
+  - simplelru
+- name: github.com/hashicorp/hcl
+  version: ef8a98b0bbce4a65b5aa4c368430a80ddc533168
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/hashicorp/nomad
+  version: 75c5fb48c53cfa95926a941a55b3f06553be2d0f
+  subpackages:
+  - acl
+  - api
+  - api/contexts
+  - helper
+  - helper/args
+  - helper/flatmap
+  - helper/uuid
+  - nomad/structs
+- name: github.com/hashicorp/raft
+  version: da92cfe76e0c1c9b94bbc9d884ec4b2b3b90b699
+- name: github.com/hashicorp/serf
+  version: 19bbd39e421bdf3559d5025fb2c760f5ffa56233
+  subpackages:
+  - coordinate
+- name: github.com/mitchellh/copystructure
+  version: d23ffcb85de31694d6ccaa23ccb4a03e55c1303f
+- name: github.com/mitchellh/go-homedir
+  version: 58046073cbffe2f25d425fe1331102f55cf719de
+- name: github.com/mitchellh/hashstructure
+  version: 2bca23e0e452137f789efbc8610126fd8b94f73b
+- name: github.com/mitchellh/mapstructure
+  version: f15292f7a699fcc1a38a80977f80a046874ba8ac
+- name: github.com/mitchellh/reflectwalk
+  version: 63d60e9d0dbc60cf9164e6510889b0db6683d98c
+- name: github.com/PagerDuty/go-pagerduty
+  version: b4a4067bdbde86de1d3fdf15c3c01e76bee9127c
+- name: github.com/pierrec/lz4
+  version: 6b9367c9ff401dbc54fabce3fb8d972e799b702d
+  subpackages:
+  - internal/xxh32
+- name: github.com/rcrowley/go-metrics
+  version: e2704e165165ec55d062f5919b4b29494e9fa790
+- name: github.com/Shopify/sarama
+  version: 35324cf48e33d8260e1c7c18854465a904ade249
+- name: github.com/ugorji/go
+  version: 00b869d2f4a5e27445c2d916fa106fc72c106d4c
+  subpackages:
+  - codec
+- name: golang.org/x/crypto
+  version: aabede6cba87e37f413b3e60ebfc214f8eeca1b0
+  subpackages:
+  - blake2b
+- name: golang.org/x/sys
+  version: 1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded
+  subpackages:
+  - cpu
+testImports: []

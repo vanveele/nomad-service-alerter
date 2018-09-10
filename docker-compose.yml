@@ -1,0 +1,16 @@
+version: '2'
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  nomad-service-alerter:
+    image: artifactory:5000/pe/nomad-service-alerter:latest
+    container_name: nomad-service-alerter
+    expose:
+      - 8000
+    ports:
+      - 8000
+    networks:
+      - backend
